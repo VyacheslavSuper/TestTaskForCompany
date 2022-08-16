@@ -5,8 +5,10 @@ import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import ru.super4121.testtask.exception.ProjectException;
 import ru.super4121.testtask.model.Country;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.net.URL;
@@ -26,7 +28,7 @@ public class SearcherCountry {
     @Value("${parser.country.parameters.fields.names}")
     private String fields;
 
-    public List<Country> getCountry(Collection<String> codes) throws Exception {
+    public List<Country> getCountries(Collection<String> codes) throws ProjectException {
         collectionIsNotNullAndNotEmpty(codes);
 
         String urlRequest = generateUrlRequest(codes);
@@ -37,6 +39,8 @@ public class SearcherCountry {
             Type listType = new TypeToken<ArrayList<Country>>() {
             }.getType();
             return gson.fromJson(json, listType);
+        } catch (IOException e) {
+            throw new ProjectException("Cant get countries");
         }
     }
 
@@ -63,12 +67,12 @@ public class SearcherCountry {
         return builder.toString();
     }
 
-    private void collectionIsNotNullAndNotEmpty(Collection<String> collection) {
+    private void collectionIsNotNullAndNotEmpty(Collection<String> collection) throws ProjectException {
         if (collection == null) {
-            throw new RuntimeException("Collection is null");
+            throw new ProjectException("Collection is null");
         }
         if (collection.isEmpty()) {
-            throw new RuntimeException("Collection is empty");
+            throw new ProjectException("Collection is empty");
         }
     }
 

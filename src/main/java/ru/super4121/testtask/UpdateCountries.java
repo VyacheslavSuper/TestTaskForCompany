@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import ru.super4121.testtask.exception.ProjectException;
 import ru.super4121.testtask.model.Country;
 import ru.super4121.testtask.service.DownloaderCountry;
 import ru.super4121.testtask.service.SearcherCountry;
@@ -27,7 +28,7 @@ public class UpdateCountries implements CommandLineRunner {
     public void run(String... args) {
         try {
             List<String> codesList = Arrays.asList(codes);
-            List<Country> countriesList = searcherCountry.getCountry(codesList);
+            List<Country> countriesList = searcherCountry.getCountries(codesList);
 
             log.info("Find {} countries", countriesList.size());
 
@@ -35,7 +36,7 @@ public class UpdateCountries implements CommandLineRunner {
                 downloaderCountry.download(country);
             }
 
-        } catch (Exception e) {
+        } catch (ProjectException e) {
             log.error("Cant find countries with codes {}", codes);
         }
     }
