@@ -1,10 +1,10 @@
-package ru.super4121.testtask.parser;
+package ru.super4121.testtask.service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.super4121.testtask.model.Country;
 
 import java.io.InputStream;
@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Component
-public class ParserCountry {
+@Service
+public class SearcherCountry {
     @Value("${parser.country.url}")
     private String url;
     @Value("${parser.country.parameters.codes}")
@@ -63,12 +63,12 @@ public class ParserCountry {
         return builder.toString();
     }
 
-    private void collectionIsNotNullAndNotEmpty(Collection<String> collection) throws Exception {
+    private void collectionIsNotNullAndNotEmpty(Collection<String> collection) {
         if (collection == null) {
-            throw new NullPointerException("Collection is null");
+            throw new RuntimeException("Collection is null");
         }
         if (collection.isEmpty()) {
-            throw new Exception("Collection is empty");
+            throw new RuntimeException("Collection is empty");
         }
     }
 

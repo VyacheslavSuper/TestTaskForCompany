@@ -1,22 +1,20 @@
 package ru.super4121.testtask;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.TaskExecutor;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 @Configuration
-public class ThreadConfiguration {
-
-    @Value("${bot.count}")
-    private int countBots;
-
-    @Bean
-    public ThreadPoolTaskExecutor threadPoolTaskHandlers() {
+@EnableAsync
+public class AsyncConfiguration {
+    @Bean("executorThreads")
+    public TaskExecutor threadPoolTaskHandlers() {
         final ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(countBots);
-        executor.setMaxPoolSize(countBots);
-        executor.setThreadNamePrefix("task_executor_thread_");
+        executor.setCorePoolSize(2);
+        executor.setQueueCapacity(50);
+        executor.setThreadNamePrefix("executor_thread_");
         executor.initialize();
         return executor;
     }

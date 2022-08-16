@@ -16,11 +16,4 @@ public class Country {
     @SerializedName("flag")
     @Expose
     private String flagUrl;
-
-    public String getFormatFileFromUrl() {
-        if (flagUrl == null || flagUrl.isEmpty()) {
-            throw new NullPointerException();
-        }
-        return flagUrl.substring(1 + flagUrl.lastIndexOf("."));
-    }
 }
