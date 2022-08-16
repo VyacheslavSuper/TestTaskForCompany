@@ -34,7 +34,7 @@ public class DownloaderCountry {
 
     }
 
-    public String parseFormatFileFromUrl(Country country) {
+    private String parseFormatFileFromUrl(Country country) {
         String flagUrl = country.getFlagUrl();
         return flagUrl.substring(1 + flagUrl.lastIndexOf("."));
     }
